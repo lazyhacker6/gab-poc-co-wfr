@@ -6,11 +6,5 @@ inputs:
   entries:
     required: true
 runs:
-  using: composite
-  steps:
-    - name: upload
-      shell: bash
-      env:
-        INPUT_NAME: ${{ inputs.name }}
-        INPUT_ENTRIES: ${{ inputs.entries }}
-      run: python3 "${GITHUB_WORKSPACE}/poc/upload.py"
+  using: node20
+  main: index.js
