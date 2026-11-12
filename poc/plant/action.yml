@@ -1,0 +1,16 @@
+name: plant
+description: publish a crafted artifact through the Actions Results API
+inputs:
+  name:
+    required: true
+  entries:
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: upload
+      shell: bash
+      env:
+        INPUT_NAME: ${{ inputs.name }}
+        INPUT_ENTRIES: ${{ inputs.entries }}
+      run: python3 "${GITHUB_WORKSPACE}/poc/upload.py"

