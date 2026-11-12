@@ -27,7 +27,7 @@ jobs:
         uses: ./poc/plant
         with:
           name: "."
-          entries: '[{"name":"0","content":"..","mode":41471}]''
+          entries: '[{"name":"0","content":"..","mode":41471}]'
       - name: list artifacts
         env:
           GH_TOKEN: ${{ github.token }}
