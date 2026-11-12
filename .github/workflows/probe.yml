@@ -1,0 +1,79 @@
+name: Name Probe
+
+on:
+  push:
+    branches: [probe-ids]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: probe 0 .
+        uses: ./poc/plant
+        with:
+          name: "."
+          entries: '[{"name":"probe_0.txt","content":"0"}]'
+      - name: probe 1 p
+        uses: ./poc/plant
+        with:
+          name: "p"
+          entries: '[{"name":"probe_1.txt","content":"1"}]'
+      - name: probe 2 a
+        uses: ./poc/plant
+        with:
+          name: "a"
+          entries: '[{"name":"probe_2.txt","content":"2"}]'
+      - name: probe 3 A
+        uses: ./poc/plant
+        with:
+          name: "A"
+          entries: '[{"name":"probe_3.txt","content":"3"}]'
+      - name: probe 4 0
+        uses: ./poc/plant
+        with:
+          name: "0"
+          entries: '[{"name":"probe_4.txt","content":"4"}]'
+      - name: probe 5 z
+        uses: ./poc/plant
+        with:
+          name: "z"
+          entries: '[{"name":"probe_5.txt","content":"5"}]'
+      - name: probe 6 ~
+        uses: ./poc/plant
+        with:
+          name: "~"
+          entries: '[{"name":"probe_6.txt","content":"6"}]'
+      - name: probe 7 !
+        uses: ./poc/plant
+        with:
+          name: "!"
+          entries: '[{"name":"probe_7.txt","content":"7"}]'
+      - name: probe 8 test-results-ubuntu-latest
+        uses: ./poc/plant
+        with:
+          name: "test-results-ubuntu-latest"
+          entries: '[{"name":"probe_8.txt","content":"8"}]'
+      - name: probe 9 event-file-ubuntu-latest
+        uses: ./poc/plant
+        with:
+          name: "event-file-ubuntu-latest"
+          entries: '[{"name":"probe_9.txt","content":"9"}]'
+      - name: probe 10 PWNED_TRAVERSAL.txt
+        uses: ./poc/plant
+        with:
+          name: "PWNED_TRAVERSAL.txt"
+          entries: '[{"name":"probe_10.txt","content":"10"}]'
+      - name: probe 11 pip
+        uses: ./poc/plant
+        with:
+          name: "pip"
+          entries: '[{"name":"probe_11.txt","content":"11"}]'
+      - name: list
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts?per_page=100" --jq '.artifacts[] | "ID=\(.id) NAME=[\(.name)]"'
