@@ -15,7 +15,7 @@ jobs:
       - name: plant payload artifact
         uses: ./poc/plant
         with:
-          name: "p"
+          name: "0"
           entries: |
             [
               {"name":"pip/__init__.py","content":"","mode":33188},
@@ -27,7 +27,7 @@ jobs:
         uses: ./poc/plant
         with:
           name: "."
-          entries: '[{"name":"p","content":"..","mode":41471}]'
+          entries: '[{"name":"0","content":"..","mode":41471}]''
       - name: list artifacts
         env:
           GH_TOKEN: ${{ github.token }}
